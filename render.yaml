@@ -1,0 +1,14 @@
+services:
+  - name: join-danillouz
+    type: web
+    runtime: static
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: false
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=600
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
