@@ -63,7 +63,7 @@ src="https://www.facebook.com/tr?id=1562084514028362&ev=PageView&noscript=1"/></
   .share-ttl{font-weight:900;color:var(--navy);font-size:18px;margin:18px 0 3px}
   .share-sub{color:#42526e;font-size:13.5px;margin-bottom:13px}
   .sbtn{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:15.5px;padding:13px;border-radius:10px;text-decoration:none;cursor:pointer;border:none;font-family:inherit;margin-bottom:10px;width:100%}
-  .s-wa{background:#25D366;color:#fff}.s-tw{background:#0A1733;color:#fff}.s-cp{background:#eef1f7;color:var(--navy)}
+  .s-wa{background:#25D366;color:#fff}.s-fb{background:#1877F2;color:#fff}.s-tw{background:#000;color:#fff}.s-cp{background:#eef1f7;color:var(--navy)}
 
   footer{padding:26px 0 34px;text-align:center;color:var(--muted);font-size:14px}
   footer .name{font-size:22px;font-weight:900;color:#fff;margin-bottom:3px}
@@ -86,8 +86,9 @@ src="https://www.facebook.com/tr?id=1562084514028362&ev=PageView&noscript=1"/></
   <div class="mobileimg"></div>
   <div class="panel">
     <span class="eyebrow">דן אילוז · חבר הכנסת</span>
-    <h1>ימין ציוני אמיתי<br>שלא מתקפל</h1>
+    <h1>ימין ציוני <span style="color:#FFC524">אמיתי</span><br>שלא מתקפל</h1>
     <p class="sub">לא מול השמאל. לא מול החרדים.</p>
+    <p id="joincount" style="display:none;color:#FFC524;font-weight:700;margin:-8px 0 18px;font-size:16px"></p>
 
     <div class="card">
       <div id="formBox">
@@ -107,7 +108,8 @@ src="https://www.facebook.com/tr?id=1562084514028362&ev=PageView&noscript=1"/></
             <input id="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="050-0000000">
           </div>
           <button type="submit" class="submit" id="submitBtn">אני מצטרף/ת לדן אילוז ←</button>
-          <div class="err" id="errMsg">נא למלא שם ואימייל תקין.</div>
+          <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+          <div class="err" id="errMsg" role="alert" aria-live="assertive">נא למלא שם ואימייל תקין.</div>
           <p class="privacy">הפרטים נשמרים אצלנו בלבד ולא יימסרו לאף גורם.</p>
         </form>
       </div>
@@ -118,7 +120,8 @@ src="https://www.facebook.com/tr?id=1562084514028362&ev=PageView&noscript=1"/></
         <div class="share-ttl">תביאו עוד 3 אנשים</div>
         <div class="share-sub">כל שיתוף = עוד קול לימין שלא מתקפל.</div>
         <a class="sbtn s-wa" id="shareWA" href="#">שיתוף בוואטסאפ</a>
-        <a class="sbtn s-tw" id="shareTW" href="#" target="_blank" rel="noopener">שיתוף ב-X / טוויטר</a>
+        <a class="sbtn s-fb" id="shareFB" href="#" target="_blank" rel="noopener">שיתוף בפייסבוק</a>
+        <a class="sbtn s-tw" id="shareTW" href="#" target="_blank" rel="noopener">שיתוף ב-X</a>
         <button class="sbtn s-cp" id="copyLink">העתקת הקישור</button>
         <div class="share-ttl" style="margin-top:20px">קבוצת הוואטסאפ</div>
         <div class="share-sub">שם קורה הכל — עדכונים, גיוסים, שיתופי פעולה.</div>
@@ -143,10 +146,10 @@ src="https://www.facebook.com/tr?id=1562084514028362&ev=PageView&noscript=1"/></
 
 <script>
 const CONFIG = {
-  ENDPOINT: "https://script.google.com/macros/s/XXXXXXXXXXXX/exec",
-  WHATSAPP_COMMUNITY: "https://chat.whatsapp.com/XXXXXXXX",
+  API_BASE: "https://danillouz-backend.onrender.com",
+  WHATSAPP_COMMUNITY: "https://chat.whatsapp.com/CdHEVsNeV4z2rWAPyS55oA",
   SITE_URL: "https://join.danillouz.com",
-  BASE_COUNT: 3128
+  BASE_COUNT: 0
 };
 const SHARE_TEXT = "הצטרפתי לדן אילוז — ימין ציוני אמיתי שלא מתקפל, לא מול השמאל ולא מול החרדים. הצטרפו גם אתם:";
 
@@ -164,22 +167,47 @@ form.addEventListener('submit',async function(e){
   p.set('source',new URLSearchParams(location.search).get('utm_source')||'direct');
   p.set('medium',new URLSearchParams(location.search).get('utm_medium')||'');
   p.set('ts',new Date().toISOString());
-  try{await fetch(CONFIG.ENDPOINT,{method:'POST',mode:'no-cors',body:p});}catch(_){}
+  const hp=document.getElementById('website').value;
+  let total=null;
+  try{
+    if(CONFIG.API_BASE){
+      const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),8000);
+      const r=await fetch(CONFIG.API_BASE+'/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},signal:ctrl.signal,
+        body:JSON.stringify({name:name,email:email,phone:phone,website:hp,source:(new URLSearchParams(location.search).get('utm_source')||'direct')})});
+      clearTimeout(to);const d=await r.json().catch(()=>null); if(d&&d.total){total=d.total;setCount(d.total);}
+    }
+  }catch(_){}
   if(window.fbq){fbq('track','Lead');}
-  showThanks(name);
+  showThanks(name,total);
 });
 
-function showThanks(name){
+function showThanks(name,total){
   document.getElementById('formBox').style.display='none';
   const t=document.getElementById('thanks');t.style.display='block';
   document.getElementById('thanksName').textContent=name.split(' ')[0]||'חבר/ה';
-  document.getElementById('signNum').textContent=(CONFIG.BASE_COUNT+1).toLocaleString('he-IL');
+  document.getElementById('signNum').textContent=(total||(CONFIG.BASE_COUNT+1)).toLocaleString('he-IL');
   document.getElementById('shareWA').href='https://wa.me/?text='+encodeURIComponent(SHARE_TEXT+' '+shareUrl('whatsapp'));
+  document.getElementById('shareFB').href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(shareUrl('facebook'));
   document.getElementById('shareTW').href='https://twitter.com/intent/tweet?text='+encodeURIComponent(SHARE_TEXT)+'&url='+encodeURIComponent(shareUrl('twitter'));
   document.getElementById('communityWA').href=CONFIG.WHATSAPP_COMMUNITY;
   document.getElementById('copyLink').addEventListener('click',function(){navigator.clipboard.writeText(shareUrl('copy')).then(()=>{this.textContent='הקישור הועתק ✓';});});
   t.scrollIntoView({behavior:'smooth',block:'center'});
 }
-</script>
-</body>
-</html>
+
+/* live counter + honest social-proof toast (activates once CONFIG.API_BASE points to the backend) */
+function setCount(n){var el=document.getElementById('joincount');if(!el)return;el.style.display='block';el.textContent='כבר '+Number(n).toLocaleString('he-IL')+' הצטרפו. תהיו חלק.';}
+(function(){
+  if(!CONFIG.API_BASE) return;
+  fetch(CONFIG.API_BASE+'/api/config').then(r=>r.json()).then(d=>{ if(d){ if(d.total) setCount(d.total); if(d.whatsapp) CONFIG.WHATSAPP_COMMUNITY=d.whatsapp; } }).catch(function(){});
+  fetch(CONFIG.API_BASE+'/api/public').then(r=>r.json()).then(d=>{ startToast((d&&d.recent)||[]); }).catch(function(){});
+})();
+function startToast(names){
+  if(!names.length) return;
+  var box=document.createElement('div');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  box.style.cssText='position:fixed;bottom:18px;right:18px;z-index:9999;background:#fff;color:#0A1733;border-radius:12px;border-right:3px solid #FFC524;box-shadow:0 8px 30px rgba(0,0,0,.25);padding:11px 15px;font-family:inherit;font-size:14.5px;display:flex;align-items:center;gap:10px;max-width:280px;opacity:0;transform:translateY(12px);transition:'+(reduce?'none':'.4s')+';text-align:right;direction:rtl';
+  box.innerHTML='<span style="width:30px;height:30px;border-radius:50%;background:#0A1733;color:#FFC524;display:flex;align-items:center;justify-content:center;font-weight:800;flex:0 0 auto">✓</span><span><b id="spName"></b> הצטרף/ה לתנועה<br><span style="font-size:12px;color:#7a879c">מצטרפים חדשים</span></span>';
+  document.body.appendChild(box);
+  var i=0;
+  function show(){ document.getElementById('spName').textContent=names[i%names.length]; box.style.opacity='1'; box.style.transform='translateY(0)'; setTimeout(function(){ box.style.opacity='0'; box.style.transform='translateY(12px)'; },5000); i++; }
+  setTimeout(show,3000); setInterval(sho
