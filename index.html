@@ -210,4 +210,8 @@ function startToast(names){
   document.body.appendChild(box);
   var i=0;
   function show(){ document.getElementById('spName').textContent=names[i%names.length]; box.style.opacity='1'; box.style.transform='translateY(0)'; setTimeout(function(){ box.style.opacity='0'; box.style.transform='translateY(12px)'; },5000); i++; }
-  setTimeout(show,3000); setInterval(sho
+  setTimeout(show,3000); setInterval(show,10000);
+}
+</script>
+</body>
+</html>
