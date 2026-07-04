@@ -110,7 +110,6 @@ src="https://www.facebook.com/tr?id=1562084514028362&ev=PageView&noscript=1"/></
             <input id="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="050-0000000">
           </div>
           <button type="submit" class="submit" id="submitBtn">אני מצטרף/ת לדן אילוז ←</button>
-          <input type="text" name="website" id="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <div class="err" id="errMsg" role="alert" aria-live="assertive">נא למלא שם ואימייל תקין.</div>
           <p class="privacy">הפרטים נשמרים אצלנו בלבד ולא יימסרו לאף גורם.</p>
         </form>
@@ -163,13 +162,13 @@ form.addEventListener('submit',async function(e){
   const name=document.getElementById('name').value.trim();
   const email=document.getElementById('email').value.trim();
   const phone=document.getElementById('phone').value.trim();
-  if(!name||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.style.display='block';return;}
+  if(!name||email.indexOf('@')<0){err.style.display='block';return;}
   btn.disabled=true;btn.textContent='רושם...';
   const p=new URLSearchParams();p.set('name',name);p.set('email',email);p.set('phone',phone);
   p.set('source',new URLSearchParams(location.search).get('utm_source')||'direct');
   p.set('medium',new URLSearchParams(location.search).get('utm_medium')||'');
   p.set('ts',new Date().toISOString());
-  const hp=document.getElementById('website').value;
+  const hp='';
   let total=null, saved=false;
   try{
     if(CONFIG.API_BASE){
