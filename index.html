@@ -168,15 +168,21 @@ form.addEventListener('submit',async function(e){
   p.set('medium',new URLSearchParams(location.search).get('utm_medium')||'');
   p.set('ts',new Date().toISOString());
   const hp=document.getElementById('website').value;
-  let total=null;
+  let total=null, saved=false;
   try{
     if(CONFIG.API_BASE){
-      const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),8000);
+      const ctrl=new AbortController();const to=setTimeout(()=>ctrl.abort(),15000);
       const r=await fetch(CONFIG.API_BASE+'/api/signup',{method:'POST',headers:{'Content-Type':'application/json'},signal:ctrl.signal,
         body:JSON.stringify({name:name,email:email,phone:phone,website:hp,source:(new URLSearchParams(location.search).get('utm_source')||'direct')})});
-      clearTimeout(to);const d=await r.json().catch(()=>null); if(d&&d.total){total=d.total;setCount(d.total);}
-    }
-  }catch(_){}
+      clearTimeout(to);
+      if(r.ok){ saved=true; const d=await r.json().catch(()=>null); if(d&&d.total){total=d.total;setCount(d.total);} }
+    } else { saved=true; }
+  }catch(_){ saved=false; }
+  if(!saved){
+    btn.disabled=false; btn.textContent='אני מצטרף/ת לדן אילוז ←';
+    err.textContent='אירעה תקלה רגעית. נסו שוב עוד רגע.'; err.style.display='block';
+    return;
+  }
   if(window.fbq){fbq('track','Lead');}
   showThanks(name,total);
 });
