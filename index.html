@@ -200,6 +200,7 @@ function setCount(n){var el=document.getElementById('joincount');if(!el)return;e
   if(!CONFIG.API_BASE) return;
   fetch(CONFIG.API_BASE+'/api/config').then(r=>r.json()).then(d=>{ if(d){ if(d.total) setCount(d.total); if(d.whatsapp) CONFIG.WHATSAPP_COMMUNITY=d.whatsapp; } }).catch(function(){});
   fetch(CONFIG.API_BASE+'/api/public').then(r=>r.json()).then(d=>{ startToast((d&&d.recent)||[]); }).catch(function(){});
+  setInterval(function(){ fetch(CONFIG.API_BASE+'/api/public').then(r=>r.json()).then(d=>{ if(d&&d.total) setCount(d.total); }).catch(function(){}); }, 15000); /*LIVE_POLL*/
 })();
 function startToast(names){
   if(!names.length) return;

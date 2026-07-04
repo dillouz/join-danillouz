@@ -7,7 +7,7 @@ services:
     headers:
       - path: /*
         name: Cache-Control
-        value: public, max-age=600
+        value: public, max-age=60
     routes:
       - type: rewrite
         source: /*
