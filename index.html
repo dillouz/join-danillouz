@@ -187,7 +187,7 @@ form.addEventListener('submit',async function(e){
   if(window.fbq){
     var _p=name.split(/\s+/);
     fbq('init','1562084514028362',{em:email,fn:(_p[0]||''),ln:_p.slice(1).join(' '),ph:phone||''}); /* Advanced Matching: pixel auto-hashes these */
-    fbq('track','Lead');
+    setTimeout(function(){ fbq('track','Lead'); }, 800); /* delay so async hashing attaches ud[] to the event */
   }
   showThanks(name,total);
 });
