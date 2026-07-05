@@ -184,7 +184,11 @@ form.addEventListener('submit',async function(e){
     err.textContent='אירעה תקלה רגעית. נסו שוב עוד רגע.'; err.style.display='block';
     return;
   }
-  if(window.fbq){fbq('track','Lead');}
+  if(window.fbq){
+    var _p=name.split(/\s+/);
+    fbq('init','1562084514028362',{em:email,fn:(_p[0]||''),ln:_p.slice(1).join(' '),ph:phone||''}); /* Advanced Matching: pixel auto-hashes these */
+    fbq('track','Lead');
+  }
   showThanks(name,total);
 });
 
