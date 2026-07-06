@@ -8,8 +8,14 @@
 <meta property="og:title" content="ימין ציוני אמיתי שלא מתקפל">
 <meta property="og:description" content="לא מול השמאל ולא מול החרדים. הצטרפו לדן אילוז.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://join.danillouz.com/hero.jpg">
+<meta property="og:image" content="https://join.danillouz.com/share.png">
+<meta property="og:image:width" content="1731">
+<meta property="og:image:height" content="909">
 <meta property="og:image:alt" content="דן אילוז — ימין ציוני אמיתי שלא מתקפל">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ימין ציוני אמיתי שלא מתקפל">
+<meta name="twitter:description" content="לא מול השמאל ולא מול החרדים. הצטרפו לדן אילוז.">
+<meta name="twitter:image" content="https://join.danillouz.com/share.png">
 <meta property="og:url" content="https://join.danillouz.com">
 <meta name="theme-color" content="#0A1733">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -198,7 +204,14 @@ function showThanks(name,total){
   document.getElementById('thanksName').textContent=name.split(' ')[0]||'חבר/ה';
   document.getElementById('signNum').textContent=(total||(CONFIG.BASE_COUNT+1)).toLocaleString('he-IL');
   document.getElementById('shareWA').href='https://wa.me/?text='+encodeURIComponent(SHARE_TEXT+' '+shareUrl('whatsapp'));
-  document.getElementById('shareFB').href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(shareUrl('facebook'));
+  var fbLink=document.getElementById('shareFB');
+  fbLink.href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(shareUrl('facebook'));
+  fbLink.addEventListener('click',function(e){ /* mobile (iPhone+Android): open native share sheet since FB sharer.php doesn't open the composer in the app */
+    if(navigator.share && window.matchMedia && window.matchMedia('(pointer: coarse)').matches){
+      e.preventDefault();
+      navigator.share({title:document.title,text:SHARE_TEXT,url:shareUrl('facebook')}).catch(function(){});
+    }
+  });
   document.getElementById('shareTW').href='https://twitter.com/intent/tweet?text='+encodeURIComponent(SHARE_TEXT)+'&url='+encodeURIComponent(shareUrl('twitter'));
   document.getElementById('communityWA').href=CONFIG.WHATSAPP_COMMUNITY;
   document.getElementById('copyLink').addEventListener('click',function(){navigator.clipboard.writeText(shareUrl('copy')).then(()=>{this.textContent='הקישור הועתק ✓';});});
