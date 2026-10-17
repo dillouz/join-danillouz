@@ -167,7 +167,7 @@ h1 em{font-style:normal;color:var(--turq)}
 (function(){
   var PAGE = location.href.split('#')[0].split('?')[0];
   var NAME = 'dan-illouz-m2.mp4';
-  var CAPTION = 'מילואימניקים, תראו ותעבירו הלאה. אילוז היחיד שעמד לצידנו בקדנציה הזאת. ב-27.10 מצביעים לישראל ביתנו בראשות ליברמן, פתק ל, ומכניסים את אילוז.\nלשליחת הסרטון הלאה: ' + PAGE;
+  var CAPTION = 'אילוז ויתר על כיסא עבורנו. תראו עד הסוף. ב-27.10 מצביעים לישראל ביתנו בראשות ליברמן, פתק ל, ומכניסים את אילוז.\nלשליחת הסרטון הלאה: ' + PAGE;
   var $ = function(id){ return document.getElementById(id); };
   var ua = navigator.userAgent || '';
   var inApp = /FBAN|FBAV|FB_IAB|Instagram|TikTok|musical_ly|BytedanceWebview|Line\//i.test(ua);
@@ -239,8 +239,13 @@ h1 em{font-style:normal;color:var(--turq)}
     progressCb = function(p){ setMain('מכין את הסרטון ' + p + '%'); };
     load().then(function(){
       progressCb = null;
-      setMain('הסרטון מוכן. לחצו לשליחה');
-      flash();
+      setMain(DEFAULT);
+      // try to open the share menu right away; browsers allow it only shortly after the tap
+      share().catch(function(err){
+        if (err && err.name === 'AbortError') return;
+        setMain('הסרטון מוכן. לחצו לשליחה');
+        flash();
+      });
     }).catch(function(){
       progressCb = null;
       setMain(DEFAULT);
