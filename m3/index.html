@@ -214,9 +214,13 @@ h1 em{font-style:normal;color:var(--turq)}
     return loading;
   }
 
+  function copyCaption(){
+    try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(CAPTION).catch(function(){}); } catch (e) {}
+  }
   function share(){
     var d = { files: [file] };
-    try { if (navigator.canShare({ files: [file], text: CAPTION })) d.text = CAPTION; } catch (e) {}
+    // iPhone: WhatsApp can drop the video when text rides along, so send the file alone (text goes to the clipboard)
+    if (!iOS) { try { if (navigator.canShare({ files: [file], text: CAPTION })) d.text = CAPTION; } catch (e) {} }
     return navigator.share(d).then(function(){
       count++;
       setMain('שלחו לעוד קבוצה');
@@ -231,6 +235,7 @@ h1 em{font-style:normal;color:var(--turq)}
 
   function onShare(){
     if (!canShare) { saveFallback(); return; }
+    if (iOS) copyCaption();
     if (file) {
       share().catch(function(err){ if (!(err && err.name === 'AbortError')) saveFallback(); });
       return;
