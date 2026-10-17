@@ -19,12 +19,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="frame.jpg">
 <style>
-/* Player first, one sticky yellow action, then the task, the networks and the ballot. */
+/* One screen: who, the video, the ballot line, one yellow button. Nothing else. */
 :root{
-  --navy:#07134A; --navy-2:#0F2170; --navy-3:#16297F; --turq:#22C2EB; --yellow:#F9C823;
+  --navy:#07134A; --navy-2:#0F2170; --turq:#22C2EB; --yellow:#F9C823;
   --white:#FFFFFF; --mute:rgba(255,255,255,.72); --line:rgba(255,255,255,.18);
   --font:"Noto Sans Hebrew","Arial Hebrew","Segoe UI",Arial,sans-serif;
-  --bar:118px;
+  --bar:112px;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -32,22 +32,20 @@
 html,body{margin:0;background:var(--navy);color:var(--white)}
 body{font-family:var(--font);font-size:17px;line-height:1.5;-webkit-tap-highlight-color:transparent;padding-bottom:calc(var(--bar) + env(safe-area-inset-bottom))}
 .wrap{
-  width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:14px;
-  padding-block:14px 28px;
+  width:100%;max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:12px;
+  padding-block:14px 16px;
   padding-left:max(16px, env(safe-area-inset-left));padding-right:max(16px, env(safe-area-inset-right));
 }
 button{font:inherit}
 
-/* header */
 .to{margin:0;font-size:15px;font-weight:700;color:var(--mute)}
 h1{margin:2px 0 0;font-size:clamp(25px,7vw,32px);line-height:1.15;font-weight:900;text-wrap:balance}
 h1 em{font-style:normal;color:var(--turq)}
 .paid{margin:4px 0 0;font-size:19px;font-weight:700}
 
-/* player */
 .player{
   position:relative;align-self:center;
-  width:min(100%, calc(clamp(330px, calc(100svh - 330px), 600px) * 9 / 16));aspect-ratio:9/16;
+  width:min(100%, calc(clamp(300px, calc(100svh - 380px), 600px) * 9 / 16));aspect-ratio:9/16;
   border-radius:12px;overflow:hidden;background:#000;box-shadow:0 0 0 1px var(--line);
 }
 .player video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;display:block}
@@ -62,10 +60,7 @@ h1 em{font-style:normal;color:var(--turq)}
 }
 .play svg{width:32px;height:32px;margin-left:5px}
 @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.07)}}
-.badge{
-  position:absolute;top:10px;left:10px;background:var(--navy);color:#fff;
-  font-size:14px;font-weight:700;padding:4px 10px;border-radius:6px;
-}
+.badge{position:absolute;top:10px;left:10px;background:var(--navy);color:#fff;font-size:14px;font-weight:700;padding:4px 10px;border-radius:6px}
 .badge b{font-variant-numeric:tabular-nums;font-weight:900}
 .sound{
   position:absolute;left:50%;bottom:14px;transform:translateX(-50%);white-space:nowrap;
@@ -80,13 +75,14 @@ h1 em{font-style:normal;color:var(--turq)}
 .endcard p{margin:0;font-size:19px;font-weight:900;line-height:1.3;text-wrap:balance}
 .endcard .again{background:none;border:0;color:var(--mute);text-decoration:underline;font-size:15px;cursor:pointer;padding:6px}
 
-/* slip */
 .slip{
-  flex:none;width:54px;height:66px;border-radius:3px;background:#fff;color:#111;
-  display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:500;line-height:1;
+  flex:none;width:46px;height:56px;border-radius:3px;background:#fff;color:#111;
+  display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:500;line-height:1;
 }
+.vote{display:flex;align-items:center;gap:12px;background:var(--navy-2);border-radius:12px;padding:12px 14px}
+.vote p{margin:0;font-size:17px;font-weight:900;line-height:1.3;text-wrap:balance}
+.vote span{display:block;font-size:15px;font-weight:700;color:var(--mute)}
 
-/* buttons */
 .btn{
   appearance:none;border:0;cursor:pointer;text-decoration:none;
   display:flex;align-items:center;justify-content:center;gap:10px;
@@ -101,16 +97,14 @@ h1 em{font-style:normal;color:var(--turq)}
 .primary.flash{animation:flash 1s ease-in-out 2}
 @keyframes flash{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
 
-/* sticky bar */
 .bar{
   position:fixed;left:0;right:0;bottom:0;z-index:20;
   background:var(--navy);box-shadow:0 -1px 0 var(--line),0 -10px 24px rgba(0,0,0,.25);
   padding:10px max(16px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
 }
 .bar-in{max-width:448px;margin:0 auto;display:flex;flex-direction:column;gap:6px}
-.bar .micro{margin:0;text-align:center;font-size:14px;font-weight:500;color:var(--white);line-height:1.35}
+.bar .micro{margin:0;text-align:center;font-size:15px;font-weight:700;color:var(--white);line-height:1.35}
 
-/* toast */
 .toast{
   position:fixed;left:50%;bottom:calc(var(--bar) + 14px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
   background:#fff;color:var(--navy);font-weight:700;font-size:16px;padding:10px 16px;border-radius:10px;
@@ -118,58 +112,8 @@ h1 em{font-style:normal;color:var(--turq)}
   max-width:calc(100% - 32px);text-align:center;
 }
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* sections */
-.card{background:var(--navy-2);border-radius:12px;padding:18px 16px;display:flex;flex-direction:column;gap:12px}
-.task h2{margin:0;font-size:23px;line-height:1.25;font-weight:900;text-wrap:balance}
-.task .line{margin:0;font-size:17px;font-weight:700}
-.steps{display:flex;gap:8px;flex-wrap:wrap}
-.chip{
-  appearance:none;border:0;cursor:pointer;background:var(--navy-3);color:var(--white);
-  display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;min-height:44px;
-  padding:8px 14px 8px 16px;border-radius:999px;box-shadow:inset 0 0 0 2px var(--yellow);
-}
-.chip i{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--yellow);flex:none;position:relative}
-.chip.done{box-shadow:inset 0 0 0 2px var(--line);color:var(--mute)}
-.chip.done i{background:var(--yellow);box-shadow:none}
-.chip.done i::after{content:"";position:absolute;left:6px;top:3px;width:4px;height:8px;border:solid var(--navy);border-width:0 2px 2px 0;transform:rotate(45deg)}
-.chip:active{transform:scale(.98)}
-.nets-head{margin:4px 0 0;font-size:15px;color:var(--mute)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.net{
-  appearance:none;cursor:pointer;min-height:64px;border-radius:10px;border:0;padding:8px 6px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.25;
-  background:transparent;color:var(--white);font-size:17px;font-weight:700;box-shadow:inset 0 0 0 2px rgba(255,255,255,.55);
-}
-.net:active{transform:scale(.98)}
-.net small{font-size:12px;font-weight:500;color:var(--mute)}
-.hint{margin:0;font-size:15px;font-weight:700;color:var(--yellow);min-height:1.4em}
-.link{
-  display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;border-radius:10px;
-  color:var(--white);text-decoration:none;font-size:16px;font-weight:700;box-shadow:inset 0 0 0 1.5px var(--line);
-}
-.link svg{width:18px;height:18px}
-.inapp{background:#fff;color:var(--navy);border-radius:12px;padding:14px 16px;font-size:16px;font-weight:700;line-height:1.45}
+.inapp{background:#fff;color:var(--navy);border-radius:12px;padding:12px 14px;font-size:16px;font-weight:700;line-height:1.45}
 .inapp b{font-weight:900}
-
-.vote{align-items:stretch}
-.vote .must{margin:0;font-size:21px;font-weight:900;line-height:1.3;text-wrap:balance}
-.vote .row{display:flex;align-items:center;gap:14px}
-.vote .row p{margin:0;font-size:19px;font-weight:900;line-height:1.3}
-.vote .cap{margin:0;font-size:14px;font-weight:500;color:var(--mute)}
-
-.more h3{margin:0;font-size:18px;font-weight:900}
-.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.thumbs a{color:var(--white);text-decoration:none;display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;line-height:1.3}
-.thumbs .im{position:relative;aspect-ratio:9/16;border-radius:8px;overflow:hidden;background:#000}
-.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
-.thumbs .im::after{
-  content:"";position:absolute;left:50%;top:50%;width:34px;height:34px;transform:translate(-50%,-50%);border-radius:50%;
-  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z' fill='%2307134A'/%3E%3C/svg%3E") 55% 50%/16px no-repeat;
-}
-.save{text-align:center;font-size:14px;color:var(--mute)}
-.save a{color:var(--white)}
-footer{text-align:center;font-size:13px;font-weight:500;color:var(--mute);padding-top:4px}
 @media (prefers-reduced-motion:reduce){.play,.primary.flash{animation:none}.btn,.toast{transition:none}}
 </style>
 </head>
@@ -192,57 +136,29 @@ footer{text-align:center;font-size:13px;font-weight:500;color:var(--mute);paddin
     <div class="endcard" id="endcard" hidden>
       <div class="slip" aria-hidden="true">ל</div>
       <p>מצביעים רק לישראל ביתנו ומכניסים את אילוז.</p>
-      <button class="btn primary js-share" type="button" data-wa="1"><span class="lbl">שלחו את הסרטון לקבוצה</span></button>
+      <button class="btn primary js-share" type="button"><span class="lbl">שלחו את הסרטון לקבוצה</span></button>
       <button class="again" id="again" type="button">צפייה חוזרת</button>
     </div>
   </div>
 
   <div class="inapp" id="inapp" hidden>כדי לשלוח את הסרטון עצמו: לוחצים על <b>⋯</b> למעלה ובוחרים <b>"פתיחה בדפדפן"</b>.</div>
 
-  <section class="card task" id="task">
-    <h2>אנחנו עוזרים למי שעמד לצידנו.</h2>
-    <p class="line">שתפו עם כל הסביבה שלכם. המשימה: 3 שליחות, 10 שניות כל אחת.</p>
-    <div class="steps" id="steps">
-      <button class="chip js-share" type="button" data-wa="1" data-hint="בתפריט: וואטסאפ ואז קבוצת המילואים"><i></i><span class="lbl">קבוצת המילואים</span></button>
-      <button class="chip js-share" type="button" data-wa="1" data-hint="בתפריט: וואטסאפ ואז קבוצת המשפחה"><i></i><span class="lbl">קבוצת המשפחה</span></button>
-      <button class="chip js-share" type="button" data-wa="1" data-hint="בתפריט: וואטסאפ ואז קבוצת העבודה"><i></i><span class="lbl">קבוצת העבודה</span></button>
-    </div>
-    <p class="nets-head">גם ברשתות, עם הסרטון עצמו:</p>
-    <div class="grid">
-      
-      <button class="net js-share" type="button" data-net="instagram"><span class="lbl">לאינסטגרם</span><small>אינסטגרם ואז ריל</small></button>
-      <button class="net js-share" type="button" data-net="tiktok"><span class="lbl">לטיקטוק</span><small>טיקטוק ואז פוסט</small></button>
-      <button class="net js-share" type="button" data-net="facebook"><span class="lbl">לפייסבוק</span><small>פייסבוק ואז ריל</small></button>
-    </div>
-    <p class="hint" id="hint" aria-live="polite" hidden></p>
-  </section>
+  <div class="vote">
+    <div class="slip" aria-hidden="true">ל</div>
+    <p><span>אנחנו חייבים אותו בכנסת הבאה.</span>מצביעים רק לישראל ביתנו ומכניסים את אילוז.</p>
+  </div>
 
-  <section class="card vote">
-    <p class="must">אנחנו חייבים אותו בכנסת הבאה. הוא חייב להיכנס.</p>
-    <div class="row">
-      <div class="slip" aria-hidden="true">ל</div>
-      <p>מצביעים רק לישראל ביתנו ומכניסים את אילוז.</p>
-    </div>
-    <p class="cap">ישראל ביתנו בראשות אביגדור ליברמן · אילוז במקום 10 · <span id="days">27.10</span></p>
-  </section>
-
-  <section class="card more" id="more">
-    <h3>עוד סרטונים לשליחה</h3>
-    <div class="thumbs"><a href="../m2/"><span class="im"><img src="../m2/frame.jpg" alt="" loading="lazy"></span>בזמן שהיית במילואים</a><a href="../m3/"><span class="im"><img src="../m3/frame.jpg" alt="" loading="lazy"></span>נלחמתי בשבילכם</a><a href="../m4/"><span class="im"><img src="../m4/frame.jpg" alt="" loading="lazy"></span>אבות עם 300 ימי מילואים</a></div>
-  </section>
-
-  <p class="save">אין תפריט שיתוף? <a id="save" href="video.mp4" download="dan-illouz-m1.mp4">שמירת הסרטון בטלפון</a> · <a id="walink" href="#" target="_blank" rel="noopener">שליחת קישור לדף</a></p>
-  <footer>דן אילוז · ישראל ביתנו בראשות אביגדור ליברמן</footer>
+  <a id="save" href="video.mp4" download="dan-illouz-m1.mp4" hidden>שמירה</a>
 </main>
 
-<div class="bar" id="bar">
+<div class="bar">
   <div class="bar-in">
-    <button class="btn primary js-share" id="mainBtn" type="button" data-wa="1">
+    <button class="btn primary js-share" id="mainBtn" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
       <span class="lbl" id="mainLbl">שלחו את הסרטון בוואטסאפ</span>
       <span class="prog" id="prog"></span>
     </button>
-    <p class="micro" id="micro">בוחרים וואטסאפ, את קבוצת המילואים, ושולחים.</p>
+    <p class="micro" id="micro">אנחנו עוזרים למי שעמד לצידנו.</p>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -250,12 +166,14 @@ footer{text-align:center;font-size:13px;font-weight:500;color:var(--mute);paddin
 <script>
 (function(){
   var PAGE = location.href.split('#')[0].split('?')[0];
-  var NAME = 'dan-illouz-m1.mp4', TITLE = 'הבטחתי למילואימניקים', SLUG = 'm1', SHORT = false;
+  var NAME = 'dan-illouz-m1.mp4';
   var CAPTION = 'מילואימניקים, תראו ותעבירו הלאה. אילוז היחיד שעמד לצידנו בקדנציה הזאת. ב-27.10 מצביעים לישראל ביתנו בראשות ליברמן, פתק ל, ומכניסים את אילוז.\nלשליחת הסרטון הלאה: ' + PAGE;
   var $ = function(id){ return document.getElementById(id); };
   var ua = navigator.userAgent || '';
   var inApp = /FBAN|FBAV|FB_IAB|Instagram|TikTok|musical_ly|BytedanceWebview|Line\//i.test(ua);
-  var file = null, loading = null, blobUrl = null, progressCb = null;
+  var iOS = /iP(hone|ad|od)/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var file = null, loading = null, blobUrl = null, progressCb = null, count = 0;
+  var DEFAULT = 'שלחו את הסרטון בוואטסאפ';
 
   function canShareFiles(){
     try {
@@ -267,34 +185,9 @@ footer{text-align:center;font-size:13px;font-weight:500;color:var(--mute);paddin
 
   var toastT;
   function toast(t){ var el = $('toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function(){ el.classList.remove('on'); }, 3200); }
+  function setMain(t){ $('mainLbl').textContent = t; }
+  function flash(){ document.querySelectorAll('.primary').forEach(function(b){ b.classList.remove('flash'); void b.offsetWidth; b.classList.add('flash'); }); }
 
-  // shares done on this phone (only for the progress dots)
-  var KEY = 'shares-' + SLUG, count = 0, SAVED, doneChips = '';
-  try { count = +localStorage.getItem(KEY) || 0; doneChips = localStorage.getItem(KEY + '-c') || ''; } catch (e) {}
-  function paintSteps(){
-    var li = $('steps').children;
-    for (var i = 0; i < li.length; i++) li[i].classList.toggle('done', doneChips.indexOf(String(i)) > -1);
-  }
-  function markChip(btn){
-    var li = Array.prototype.slice.call($('steps').children), i = li.indexOf(btn);
-    if (i < 0) { for (var k = 0; k < li.length; k++) if (doneChips.indexOf(String(k)) < 0) { i = k; break; } }
-    if (i > -1 && doneChips.indexOf(String(i)) < 0) doneChips += String(i);
-    try { localStorage.setItem(KEY + '-c', doneChips); } catch (e) {}
-    paintSteps();
-  }
-  var iOS = /iP(hone|ad|od)/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  paintSteps();
-  SAVED = iOS ? "הסרטון נשמר ב'קבצים'. משם: שיתוף, וואטסאפ." : 'הסרטון נשמר. פותחים וואטסאפ, צירוף, גלריה.';
-
-  function setMain(lbl, micro){ $('mainLbl').textContent = lbl; if (micro) $('micro').textContent = micro; }
-  function afterShareCopy(){
-    if (count === 1) setMain('שלחו לעוד קבוצה', 'שלחתם פעם אחת. עכשיו לקבוצת המשפחה.');
-    else if (count === 2) setMain('שלחו לעוד קבוצה', SHORT ? "שלחתם פעמיים. עוד אחת וסיימתם: 'הסטטוס שלי'." : 'שלחתם פעמיים. עוד אחת וסיימתם.');
-    else if (count >= 3) setMain('שלחו לעוד קבוצה', 'שלחתם ' + count + ' פעמים. תודה.');
-  }
-  if (count) afterShareCopy();
-
-  // background download of the file so the share menu opens instantly
   function load(){
     if (file) return Promise.resolve(file);
     if (loading) return loading;
@@ -307,7 +200,8 @@ footer{text-align:center;font-size:13px;font-weight:500;color:var(--mute);paddin
         return reader.read().then(function(s){
           if (s.done) return new Blob(parts, { type: 'video/mp4' });
           parts.push(s.value); got += s.value.length;
-          var pc = Math.round(got * 100 / total); $('prog').style.width = pc + '%'; if (progressCb) progressCb(Math.min(99, pc));
+          var pc = Math.round(got * 100 / total); $('prog').style.width = pc + '%';
+          if (progressCb) progressCb(Math.min(99, pc));
           return pump();
         });
       }
@@ -320,60 +214,41 @@ footer{text-align:center;font-size:13px;font-weight:500;color:var(--mute);paddin
     return loading;
   }
 
-  function copyCaption(){
-    try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(CAPTION).catch(function(){}); } catch (e) {}
-  }
-
-  function shareData(withText){
+  function share(){
     var d = { files: [file] };
-    if (withText) {
-      try { if (navigator.canShare({ files: [file], text: CAPTION })) d.text = CAPTION; } catch (e) {}
-    }
-    return d;
-  }
-  function doShare(withText, btn){
-    return navigator.share(shareData(withText)).then(function(){
-      count++; try { localStorage.setItem(KEY, String(count)); } catch (e) {}
-      if (withText) markChip(btn); afterShareCopy();
-      toast(count >= 3 ? 'עשיתם את שלכם. יש עוד סרטונים למטה.' : 'נשלח. תודה. עכשיו לקבוצה הבאה.');
-      if (count >= 3) $('more').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    try { if (navigator.canShare({ files: [file], text: CAPTION })) d.text = CAPTION; } catch (e) {}
+    return navigator.share(d).then(function(){
+      count++;
+      setMain('שלחו לעוד קבוצה');
+      toast(count === 1 ? 'נשלח. תודה. עכשיו לקבוצה הבאה.' : 'נשלח. תודה.');
     });
   }
 
-  function onShare(e){
-    var btn = e.currentTarget;
-    var hint = btn.getAttribute('data-hint');
-    if (!canShare) { $('save').click(); toast(SAVED); return; }
-    var wa = btn.hasAttribute('data-wa');
+  function saveFallback(){
+    $('save').click();
+    toast(iOS ? "הסרטון נשמר ב'קבצים'. משם: שיתוף, וואטסאפ." : 'הסרטון נשמר. פותחים וואטסאפ, צירוף, גלריה.');
+  }
+
+  function onShare(){
+    if (!canShare) { saveFallback(); return; }
     if (file) {
-      if (!wa) { copyCaption(); toast('הטקסט הועתק. מדביקים אותו בכיתוב.'); }
-      doShare(wa, btn)
-        .catch(function(err){
-          if (err && err.name === 'AbortError') return;
-          $('save').click(); toast('השיתוף לא נפתח, אז הסרטון נשמר. מעלים אותו מהגלריה.');
-        });
+      share().catch(function(err){ if (!(err && err.name === 'AbortError')) saveFallback(); });
       return;
     }
-    var lbl = btn.querySelector('.lbl'), orig = lbl ? lbl.textContent : '';
-    var setBusy = function(t){ if (lbl) lbl.textContent = t; if (btn !== $('mainBtn')) $('mainLbl').textContent = t; };
-    setBusy('מכין את הסרטון…');
-    progressCb = function(p){ setBusy('מכין את הסרטון ' + p + '%'); };
+    setMain('מכין את הסרטון…');
+    progressCb = function(p){ setMain('מכין את הסרטון ' + p + '%'); };
     load().then(function(){
-      progressCb = null; if (lbl && btn !== $('mainBtn')) lbl.textContent = orig;
-      setMain('הסרטון מוכן. לחצו לשליחה', 'בוחרים וואטסאפ, את קבוצת המילואים, ושולחים.');
-      document.querySelectorAll('.primary').forEach(function(b){ b.classList.remove('flash'); void b.offsetWidth; b.classList.add('flash'); });
+      progressCb = null;
+      setMain('הסרטון מוכן. לחצו לשליחה');
+      flash();
     }).catch(function(){
-      progressCb = null; if (lbl && btn !== $('mainBtn')) lbl.textContent = orig;
-      setMain('שלחו את הסרטון בוואטסאפ');
+      progressCb = null;
+      setMain(DEFAULT);
       toast('הסרטון לא נטען. בדקו את החיבור ונסו שוב.');
     });
   }
   document.querySelectorAll('.js-share').forEach(function(b){ b.addEventListener('click', onShare); });
 
-  // the page link for WhatsApp (people who get it land here and can send the video too)
-  $('walink').href = 'https://wa.me/?text=' + encodeURIComponent(CAPTION + '\n' + PAGE);
-
-  // player: silent teaser loops; a tap plays the full video with sound
   var teaser = $('teaser'), full = $('full'), cover = $('cover'), endcard = $('endcard');
   function playFull(){
     cover.hidden = true; endcard.hidden = true;
@@ -390,30 +265,19 @@ footer{text-align:center;font-size:13px;font-weight:500;color:var(--mute);paddin
       if (blobUrl && full.src === blobUrl) { full.src = 'video.mp4'; full.play().catch(function(){}); }
     });
   }
-  full.addEventListener('error', function(){ if (blobUrl && full.src === blobUrl) { full.src = 'video.mp4'; } });
+  full.addEventListener('error', function(){ if (blobUrl && full.src === blobUrl) full.src = 'video.mp4'; });
   cover.addEventListener('click', playFull);
   $('again').addEventListener('click', playFull);
   function showEnd(){
     try { if (document.fullscreenElement) document.exitFullscreen(); if (full.webkitDisplayingFullscreen) full.webkitExitFullscreen(); } catch (e) {}
-    endcard.hidden = false; full.controls = false;
-    document.querySelectorAll('.primary').forEach(function(b){ b.classList.remove('flash'); void b.offsetWidth; b.classList.add('flash'); });
+    endcard.hidden = false; full.controls = false; flash();
   }
   full.addEventListener('ended', showEnd);
   full.addEventListener('webkitendfullscreen', function(){ if (full.ended) showEnd(); });
 
-  // days to the election
-  try {
-    var d = Math.ceil((new Date('2026-10-27T00:00:00+02:00') - new Date()) / 864e5);
-    if (d > 1) $('days').textContent = 'עוד ' + d + ' ימים, ב-27.10';
-    else if (d === 1) $('days').textContent = 'מחר, 27.10';
-    else if (d === 0) $('days').textContent = 'היום מצביעים, 27.10';
-  } catch (e) {}
-
   if (!canShare) {
     if (inApp) $('inapp').hidden = false;
-    setMain('שמרו את הסרטון בטלפון', iOS ? "הסרטון נשמר ב'קבצים'. משם: שיתוף, וואטסאפ." : 'אחרי השמירה: וואטסאפ, צירוף, גלריה.');
-    document.querySelectorAll('.net').forEach(function(b){ b.closest('.grid').hidden = true; });
-    document.querySelector('.nets-head').hidden = true;
+    DEFAULT = 'שמרו את הסרטון בטלפון'; setMain(DEFAULT);
   } else {
     var start = function(){ if (!(navigator.connection && navigator.connection.saveData)) load().catch(function(){}); };
     if (document.readyState === 'complete') setTimeout(start, 200);
