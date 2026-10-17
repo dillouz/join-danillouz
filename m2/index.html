@@ -2,9 +2,12 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-/Fzj6vlFY5Erz/XCl2l5EjkiAnc9KfEtg69/gMvznIg=' 'sha256-ufQhRrIGUDubK+JzscJDYxntTalxqiveFj1E0KyrZkw='; style-src 'sha256-/62vTdkeZfs7h/iXuRYTMqpEKVDFS2SYwqBazLOJEh8='; img-src https://dillouz.github.io; media-src https://dillouz.github.io blob:; connect-src https://dillouz.github.io; font-src https://dillouz.github.io; base-uri 'none'; form-action 'none'; object-src 'none'; manifest-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>if(location.pathname.slice(-1)!=="/")location.replace(location.pathname+"/"+location.search+location.hash);if(window.top!==window.self)document.documentElement.style.display="none";</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>סרטון: בזמן שהיית במילואים | דן אילוז</title>
-<meta name="description" content="סרטון של 2:59. מילואימניקים ומשפחותיהם: אילוז היחיד שעמד לצידנו בקדנציה הזאת. צפו ושלחו לקבוצות.">
+<meta name="description" content="סרטון של 2:59. ויתרתי על הכיסא בכנסת. עליכם לא ויתרתי. דן אילוז">
 <meta property="og:type" content="video.other">
 <meta property="og:title" content="סרטון: בזמן שהיית במילואים">
 <meta property="og:description" content="סרטון של 2:59. צפו ושלחו לקבוצת המילואים ולמשפחה.">
@@ -14,12 +17,17 @@
 <meta property="og:url" content="https://miluim27.onrender.com/m2/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#07134A">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@500;700;900&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="frame.jpg">
+<link rel="preconnect" href="https://dillouz.github.io" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="https://dillouz.github.io/join-danillouz/v/fonts/nsh-900.woff2" crossorigin>
+<link rel="preload" as="image" href="https://dillouz.github.io/join-danillouz/v/m2/frame.jpg">
 <style>
 /* One screen: who, the video, the ballot line, one yellow button. Nothing else. */
+@font-face{font-family:"Noto Sans Hebrew";font-weight:500;font-display:swap;src:url(https://dillouz.github.io/join-danillouz/v/fonts/nsh-500.woff2) format("woff2");unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:"Noto Sans Hebrew";font-weight:500;font-display:swap;src:url(https://dillouz.github.io/join-danillouz/v/fonts/nshl-500.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Noto Sans Hebrew";font-weight:700;font-display:swap;src:url(https://dillouz.github.io/join-danillouz/v/fonts/nsh-700.woff2) format("woff2");unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:"Noto Sans Hebrew";font-weight:700;font-display:swap;src:url(https://dillouz.github.io/join-danillouz/v/fonts/nshl-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Noto Sans Hebrew";font-weight:900;font-display:swap;src:url(https://dillouz.github.io/join-danillouz/v/fonts/nsh-900.woff2) format("woff2");unicode-range:U+0307-0308,U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:"Noto Sans Hebrew";font-weight:900;font-display:swap;src:url(https://dillouz.github.io/join-danillouz/v/fonts/nshl-900.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{
   --navy:#07134A; --navy-2:#0F2170; --turq:#22C2EB; --yellow:#F9C823;
   --white:#FFFFFF; --mute:rgba(255,255,255,.72); --line:rgba(255,255,255,.18);
@@ -128,7 +136,7 @@ h1 em{font-style:normal;color:var(--turq)}
   </header>
 
   <div class="player" id="player">
-    <video id="teaser" src="teaser.mp4" poster="frame.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+    <video id="teaser" src="https://dillouz.github.io/join-danillouz/v/m2/teaser.mp4" poster="https://dillouz.github.io/join-danillouz/v/m2/frame.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
     <video id="full" class="full" playsinline preload="none" hidden></video>
     <button class="cover" id="cover" type="button" aria-label="הפעלת הסרטון עם קול">
       <span class="badge">סרטון · <b>2:59</b></span>
@@ -151,7 +159,7 @@ h1 em{font-style:normal;color:var(--turq)}
   </div>
   <p class="legal">באחריות דן אילוז.</p>
 
-  <a id="save" href="video.mp4" download="miluim-m2.mp4" hidden>שמירה</a>
+  <a id="save" href="https://dillouz.github.io/join-danillouz/v/m2/video.mp4" download="miluim-m2.mp4" hidden>שמירה</a>
 </main>
 
 <div class="bar">
@@ -170,6 +178,7 @@ h1 em{font-style:normal;color:var(--turq)}
 (function(){
   var PAGE = location.href.split('#')[0].split('?')[0];
   var NAME = 'miluim-m2.mp4';
+  var VIDEO = 'https://dillouz.github.io/join-danillouz/v/m2/video.mp4';
   var CAPTION = "אסור לשכוח את מי שעמד איתנו כשכולם שכחו אותנו." + '\nלשליחת הסרטון הלאה: ' + PAGE;
   var $ = function(id){ return document.getElementById(id); };
   var ua = navigator.userAgent || '';
@@ -194,7 +203,7 @@ h1 em{font-style:normal;color:var(--turq)}
   function load(){
     if (file) return Promise.resolve(file);
     if (loading) return loading;
-    loading = fetch('video.mp4').then(function(r){
+    loading = fetch(VIDEO, { mode: 'cors', credentials: 'omit' }).then(function(r){
       if (!r.ok) throw new Error('http ' + r.status);
       var total = +r.headers.get('content-length') || 0;
       if (!r.body || !r.body.getReader || !total) return r.blob();
@@ -231,9 +240,19 @@ h1 em{font-style:normal;color:var(--turq)}
     });
   }
 
-  function saveFallback(){
-    $('save').click();
+  // the video lives on another host, so a plain download link would just open it; save it from memory instead
+  function saveFile(f){
+    var a = $('save'), u = URL.createObjectURL(f);
+    a.href = u; a.download = NAME; a.click();
+    setTimeout(function(){ URL.revokeObjectURL(u); }, 60000);
     toast(iOS ? "הסרטון נשמר ב'קבצים'. משם: שיתוף, וואטסאפ." : 'הסרטון נשמר. פותחים וואטסאפ, צירוף, גלריה.');
+  }
+  function saveFallback(){
+    if (file) { saveFile(file); return; }
+    setMain('מכין את הסרטון…');
+    progressCb = function(p){ setMain('מכין את הסרטון ' + p + '%'); };
+    load().then(function(f){ progressCb = null; setMain(DEFAULT); saveFile(f); })
+      .catch(function(){ progressCb = null; setMain(DEFAULT); window.open(VIDEO, '_blank', 'noopener'); });
   }
 
   function onShare(){
@@ -269,16 +288,16 @@ h1 em{font-style:normal;color:var(--turq)}
     teaser.hidden = true; full.hidden = false;
     if (!full.src) {
       if (file) { blobUrl = URL.createObjectURL(file); full.src = blobUrl; }
-      else full.src = 'video.mp4';
+      else full.src = VIDEO;
     }
     full.controls = true; full.muted = false;
     try { full.currentTime = 0; } catch (e) {}
     var p = full.play();
     if (p && p.catch) p.catch(function(){
-      if (blobUrl && full.src === blobUrl) { full.src = 'video.mp4'; full.play().catch(function(){}); }
+      if (blobUrl && full.src === blobUrl) { full.src = VIDEO; full.play().catch(function(){}); }
     });
   }
-  full.addEventListener('error', function(){ if (blobUrl && full.src === blobUrl) full.src = 'video.mp4'; });
+  full.addEventListener('error', function(){ if (blobUrl && full.src === blobUrl) full.src = VIDEO; });
   cover.addEventListener('click', playFull);
   $('again').addEventListener('click', playFull);
   function showEnd(){
@@ -292,9 +311,15 @@ h1 em{font-style:normal;color:var(--turq)}
     if (inApp) $('inapp').hidden = false;
     DEFAULT = 'שמרו את הסרטון בטלפון'; setMain(DEFAULT);
   } else {
-    var start = function(){ if (!(navigator.connection && navigator.connection.saveData)) load().catch(function(){}); };
-    if (document.readyState === 'complete') setTimeout(start, 200);
-    else window.addEventListener('load', function(){ setTimeout(start, 200); });
+    // download the video only for people who stay: after a short look, or as soon as they touch or scroll the page
+    var started = false;
+    var start = function(){
+      if (started) return; started = true;
+      if (!(navigator.connection && navigator.connection.saveData)) load().catch(function(){});
+    };
+    ['pointerdown', 'touchstart', 'scroll'].forEach(function(ev){ window.addEventListener(ev, start, { once: true, passive: true }); });
+    var later = function(){ setTimeout(start, 2500); };
+    if (document.readyState === 'complete') later(); else window.addEventListener('load', later);
   }
 })();
 </script>
